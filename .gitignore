@@ -4,4 +4,3 @@ firebase-service-account.json
 # Environment
 .env
 node_modules/
-dist/
