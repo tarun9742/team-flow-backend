@@ -1,18 +1,20 @@
-
 import admin from "firebase-admin";
-import serviceAccount from "../../firebase-service-account.json";
 
-admin.initializeApp({ 
-  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-});
+const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG as string);
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 export const verifyFirebaseToken = async (token: string) => {
-  try { 
+  try {
     const decoded = await admin.auth().verifyIdToken(token);
     return decoded;
   } catch (error) {
     throw new Error("Invalid Firebase token");
   }
-}; 
+};
 
 export default admin;
